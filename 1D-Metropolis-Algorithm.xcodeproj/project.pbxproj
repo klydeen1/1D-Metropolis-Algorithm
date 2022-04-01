@@ -17,6 +17,10 @@
 		6522978227EE7FF100E4BEA9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522975827EE7FEE00E4BEA9 /* ContentView.swift */; };
 		6522978327EE7FF100E4BEA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6522975927EE7FF100E4BEA9 /* Assets.xcassets */; };
 		6522978427EE7FF100E4BEA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6522975927EE7FF100E4BEA9 /* Assets.xcassets */; };
+		6522979727EE810200E4BEA9 /* OneDMetropolis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979627EE810200E4BEA9 /* OneDMetropolis.swift */; };
+		6522979827EE810200E4BEA9 /* OneDMetropolis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979627EE810200E4BEA9 /* OneDMetropolis.swift */; };
+		6522979A27F78D1300E4BEA9 /* OneDSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979927F78D1300E4BEA9 /* OneDSpin.swift */; };
+		6522979B27F78D1300E4BEA9 /* OneDSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979927F78D1300E4BEA9 /* OneDSpin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +53,8 @@
 		6522977727EE7FF100E4BEA9 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6522977B27EE7FF100E4BEA9 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		6522977D27EE7FF100E4BEA9 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
+		6522979627EE810200E4BEA9 /* OneDMetropolis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDMetropolis.swift; sourceTree = "<group>"; };
+		6522979927F78D1300E4BEA9 /* OneDSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDSpin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,8 @@
 			children = (
 				6522975727EE7FEE00E4BEA9 /* _D_Metropolis_AlgorithmApp.swift */,
 				6522975827EE7FEE00E4BEA9 /* ContentView.swift */,
+				6522979627EE810200E4BEA9 /* OneDMetropolis.swift */,
+				6522979927F78D1300E4BEA9 /* OneDSpin.swift */,
 				6522975927EE7FF100E4BEA9 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -299,6 +307,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6522979727EE810200E4BEA9 /* OneDMetropolis.swift in Sources */,
+				6522979A27F78D1300E4BEA9 /* OneDSpin.swift in Sources */,
 				6522978127EE7FF100E4BEA9 /* ContentView.swift in Sources */,
 				6522977F27EE7FF100E4BEA9 /* _D_Metropolis_AlgorithmApp.swift in Sources */,
 			);
@@ -308,6 +318,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6522979827EE810200E4BEA9 /* OneDMetropolis.swift in Sources */,
+				6522979B27F78D1300E4BEA9 /* OneDSpin.swift in Sources */,
 				6522978227EE7FF100E4BEA9 /* ContentView.swift in Sources */,
 				6522978027EE7FF100E4BEA9 /* _D_Metropolis_AlgorithmApp.swift in Sources */,
 			);
