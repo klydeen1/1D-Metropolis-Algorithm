@@ -9,8 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var metropolisAlgorithm = OneDMetropolis()
+    @ObservedObject var drawingData = DrawingData(withData: true)
     
-    @State var NString = "20" // Number of particles
+    @State var NString = "100" // Number of particles
     @State var tempString = "100.0" // Temperature
     
     @State var selectedStart = "Cold"
@@ -53,26 +54,24 @@ struct ContentView: View {
                         .padding()
                         .disabled(metropolisAlgorithm.enableButton == false)
                     
-                    Button("Run 100 Times", action: {Task.init{await self.runMany()}})
+                    Button("Run 1000 Times", action: {Task.init{await self.runMany()}})
                         .padding()
                         .disabled(metropolisAlgorithm.enableButton == false)
                     
-                    Button("Reset", action: {Task.init{await self.reset()}})
+                    Button("Reset", action: {Task.init{self.reset()}})
                         .padding()
                         .disabled(metropolisAlgorithm.enableButton == false)
                 }
             }
             
-            /*
             .padding()
             //DrawingField
-            drawingView(redLayer:$metropolisAlgorithm.spinUpData, blueLayer:$metropolisAlgorithm.spinDownData)
+            drawingView(redLayer:$drawingData.spinUpData, blueLayer:$drawingData.spinDownData, N: metropolisAlgorithm.N)
                 .padding()
                 .aspectRatio(1, contentMode: .fit)
                 .drawingGroup()
             // Stop the window shrinking to zero.
             Spacer()
-             */
             
         }
         // Stop the window shrinking to zero.
@@ -81,43 +80,49 @@ struct ContentView: View {
     }
     
     func runOneDAlgorithm() async {
-        await checkNChange()
+        checkNChange()
         
         metropolisAlgorithm.setButtonEnable(state: false)
         
+        metropolisAlgorithm.printSpins = true
         metropolisAlgorithm.N = Int(NString)!
         metropolisAlgorithm.temp = Double(tempString)!
-        await metropolisAlgorithm.runMetropolis(startType: selectedStart)
+        await metropolisAlgorithm.iterateMetropolis(startType: selectedStart)
         
         metropolisAlgorithm.setButtonEnable(state: true)
     }
     
-    func runMany() async{
-        await checkNChange()
+    @MainActor func runMany() async{
+        checkNChange()
         
         metropolisAlgorithm.setButtonEnable(state: false)
         
+        metropolisAlgorithm.printSpins = false
         metropolisAlgorithm.temp = Double(tempString)!
-        for _ in 0...100 {
-            await metropolisAlgorithm.runMetropolis(startType: selectedStart)
-        }
+        await metropolisAlgorithm.runSimulation(startType: selectedStart)
+        drawingData.spinUpData = metropolisAlgorithm.newSpinUpPoints
+        drawingData.spinDownData = metropolisAlgorithm.newSpinDownPoints
         
         metropolisAlgorithm.setButtonEnable(state: true)
     }
     
-    func checkNChange() async {
+    func checkNChange() {
         let prevN = metropolisAlgorithm.N
         metropolisAlgorithm.N = Int(NString)!
         if (prevN != metropolisAlgorithm.N) {
-            await reset()
+            self.reset()
         }
     }
     
-    func reset() async {
+    @MainActor func reset() {
         metropolisAlgorithm.setButtonEnable(state: false)
         
         metropolisAlgorithm.mySpin.spinArray = []
-        print("\nNew Config")
+        if(metropolisAlgorithm.printSpins) {
+            print("\nNew Config")
+        }
+        
+        drawingData.clearData()
         
         metropolisAlgorithm.setButtonEnable(state: true)
     }

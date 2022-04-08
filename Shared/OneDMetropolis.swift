@@ -6,30 +6,53 @@
 //
 
 import Foundation
+import SwiftUI
 
 class OneDMetropolis: NSObject, ObservableObject {
+    // @MainActor @Published var spinUpData = [(xPoint: Double, yPoint: Double)]()
+    // @MainActor @Published var spinDownData = [(xPoint: Double, yPoint: Double)]()
+    
     @Published var OneDSpins: [Double] = []
     @Published var enableButton = true
     
     var mySpin = OneDSpin()
-    var N = 20
+    var N = 100
     var temp = 273.15 // Temperature in Kelvin
     let kB = 1.380649e-23 // Boltzmann constant
     let J = 1.0 // The exchange energy
     
-    /// runMetropolis
-    /// Runs the 1D Metropolis algorithm and prints the resulting configuration
+    var printSpins = false
+    
+    var newSpinUpPoints: [(xPoint: Double, yPoint: Double)] = []
+    var newSpinDownPoints: [(xPoint: Double, yPoint: Double)] = []
+    
+    /// iterateMetropolis
+    /// Runs the 1D Metropolis algorithm once and prints the resulting configuration
     /// Also sets and prints the initial spin array if the array is empty
     /// - Parameters:
     ///   - startType: the starting configuration for the spin array. value "hot" means we start with random spins. "cold" means the spins are ordered
-    func runMetropolis(startType: String) async {
+    func iterateMetropolis(startType: String) async {
         if (mySpin.spinArray.isEmpty) {
             await initializeSpin(startType: startType)
         }
 
         let newSpinArray = await metropolis(spinConfig: mySpin.spinArray)
-        await printSpin(spinConfig: newSpinArray)
+        if printSpins {
+            await printSpin(spinConfig: newSpinArray)
+        }
         mySpin.spinArray = newSpinArray
+    }
+    
+    func runSimulation(startType: String) async {
+        newSpinUpPoints = []
+        newSpinDownPoints = []
+        
+        for x in 1...1000 {
+            await iterateMetropolis(startType: startType)
+            await addSpinCoordinates(spinConfig: mySpin.spinArray, xCoord: Double(x))
+        }
+
+        // await updateData(spinUpPoints: newSpinUpPoints, spinDownPoints: newSpinDownPoints)
     }
     
     /// initializeSpin
@@ -47,11 +70,14 @@ class OneDMetropolis: NSObject, ObservableObject {
         default:
             await mySpin.hotStart(N: N)
         }
-        await printSpin(spinConfig: mySpin.spinArray) // Print the starting spin array
+        if printSpins {
+            await printSpin(spinConfig: mySpin.spinArray) // Print the starting spin array
+        }
+        await addSpinCoordinates(spinConfig: mySpin.spinArray, xCoord: 0.0)
     }
     
     /// metropolis
-    /// Function to run the 1D Metropolis algorithm
+    /// Function to run the 1D Metropolis algorithm once
     /// - Parameters:
     ///   - spinConfig: the 1D spin configuration with positive values representing spin up and negative representing spin down
     /// - returns: the new spin configuration which is either the original configuration or a new one where one random spin is flipped
@@ -118,6 +144,30 @@ class OneDMetropolis: NSObject, ObservableObject {
         }
         print(spinString)
     }
+    
+    func addSpinCoordinates(spinConfig: [Double], xCoord: Double) async {
+        for i in 0..<spinConfig.count {
+            if (spinConfig[i] < 0) {
+                newSpinDownPoints.append((xPoint: xCoord, yPoint: Double(i)))
+            }
+            else {
+                newSpinUpPoints.append((xPoint: xCoord, yPoint: Double(i)))
+            }
+        }
+    }
+    
+    /*
+    /// updateData
+    /// The function runs on the main thread so it can update the GUI
+    /// - Parameters:
+    ///   - spinUpPoints: points representing particles with spin up
+    ///   - spinDownPoints: points representing particles with spin down
+    @MainActor func updateData(spinUpPoints: [(xPoint: Double, yPoint: Double)] , spinDownPoints: [(xPoint: Double, yPoint: Double)]){
+        
+        spinUpData.append(contentsOf: spinUpPoints)
+        spinDownData.append(contentsOf: spinDownPoints)
+    }
+     */
     
     /// setButton Enable
     /// Toggles the state of the Enable Button on the Main Thread
