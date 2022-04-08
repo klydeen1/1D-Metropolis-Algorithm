@@ -21,6 +21,8 @@
 		6522979827EE810200E4BEA9 /* OneDMetropolis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979627EE810200E4BEA9 /* OneDMetropolis.swift */; };
 		6522979A27F78D1300E4BEA9 /* OneDSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979927F78D1300E4BEA9 /* OneDSpin.swift */; };
 		6522979B27F78D1300E4BEA9 /* OneDSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979927F78D1300E4BEA9 /* OneDSpin.swift */; };
+		6522979D2800C90200E4BEA9 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979C2800C90200E4BEA9 /* DrawingView.swift */; };
+		6522979E2800C90200E4BEA9 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6522979C2800C90200E4BEA9 /* DrawingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,7 @@
 		6522977D27EE7FF100E4BEA9 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
 		6522979627EE810200E4BEA9 /* OneDMetropolis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDMetropolis.swift; sourceTree = "<group>"; };
 		6522979927F78D1300E4BEA9 /* OneDSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDSpin.swift; sourceTree = "<group>"; };
+		6522979C2800C90200E4BEA9 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,7 @@
 				6522975827EE7FEE00E4BEA9 /* ContentView.swift */,
 				6522979627EE810200E4BEA9 /* OneDMetropolis.swift */,
 				6522979927F78D1300E4BEA9 /* OneDSpin.swift */,
+				6522979C2800C90200E4BEA9 /* DrawingView.swift */,
 				6522975927EE7FF100E4BEA9 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -309,6 +313,7 @@
 			files = (
 				6522979727EE810200E4BEA9 /* OneDMetropolis.swift in Sources */,
 				6522979A27F78D1300E4BEA9 /* OneDSpin.swift in Sources */,
+				6522979D2800C90200E4BEA9 /* DrawingView.swift in Sources */,
 				6522978127EE7FF100E4BEA9 /* ContentView.swift in Sources */,
 				6522977F27EE7FF100E4BEA9 /* _D_Metropolis_AlgorithmApp.swift in Sources */,
 			);
@@ -320,6 +325,7 @@
 			files = (
 				6522979827EE810200E4BEA9 /* OneDMetropolis.swift in Sources */,
 				6522979B27F78D1300E4BEA9 /* OneDSpin.swift in Sources */,
+				6522979E2800C90200E4BEA9 /* DrawingView.swift in Sources */,
 				6522978227EE7FF100E4BEA9 /* ContentView.swift in Sources */,
 				6522978027EE7FF100E4BEA9 /* _D_Metropolis_AlgorithmApp.swift in Sources */,
 			);

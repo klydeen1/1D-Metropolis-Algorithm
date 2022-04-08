@@ -19,7 +19,6 @@ class OneDSpin: NSObject, ObservableObject {
         spinArray = []
         for _ in 0..<N {
             let rand = Int.random(in: 0...1)
-            print(rand)
             if (rand == 0) { spinArray.append(-1.0) }
             else { spinArray.append(1.0) }
         }

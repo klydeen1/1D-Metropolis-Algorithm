@@ -23,7 +23,7 @@ class OneDMetropolis: NSObject, ObservableObject {
     /// - Parameters:
     ///   - startType: the starting configuration for the spin array. value "hot" means we start with random spins. "cold" means the spins are ordered
     func runMetropolis(startType: String) async {
-        if (mySpin.spinArray == []) {
+        if (mySpin.spinArray.isEmpty) {
             await initializeSpin(startType: startType)
         }
 
@@ -59,7 +59,7 @@ class OneDMetropolis: NSObject, ObservableObject {
         // var newSpinConfig: [Double] = []
         let spinToFlip = Int.random(in: 0..<spinConfig.count) // Pick a random particle
         var trialConfig = spinConfig
-        trialConfig[spinToFlip] *= -1 // Flip the spin of the random particle
+        trialConfig[spinToFlip] *= -1.0 // Flip the spin of the random particle
         
         // Get the energies of the configurations
         let trialEnergy = await getConfigEnergy(spinConfig: trialConfig)
@@ -74,6 +74,7 @@ class OneDMetropolis: NSObject, ObservableObject {
             // let R = exp((-1.0*abs(trialEnergy - prevEnergy))/(kB * temp))
             let R = exp((-1.0*abs(trialEnergy - prevEnergy))) // kBT = 1 for debugging
             let r = Double.random(in: 0...1)
+            // print("r is \(r) and R is \(R)")
             if (R >= r) { return trialConfig } // Accept the trial
             else { return spinConfig } // Reject the trial and keep the original spin config
         }
