@@ -12,13 +12,14 @@ struct drawingView: View {
     @Binding var blueLayer : [(xPoint: Double, yPoint: Double)]
     
     var N: Int
+    var n: Int
     
     var body: some View {
         ZStack{
-            drawSpins(drawingPoints: redLayer, numParticles: N)
+            drawSpins(drawingPoints: redLayer, numParticles: N, numIterations: n)
                 .stroke(Color.red)
             
-            drawSpins(drawingPoints: blueLayer, numParticles: N)
+            drawSpins(drawingPoints: blueLayer, numParticles: N, numIterations: n)
                 .stroke(Color.blue)
         }
         .background(Color.white)
@@ -30,9 +31,10 @@ struct DrawingView_Previews: PreviewProvider {
     @State static var redLayer : [(xPoint: Double, yPoint: Double)] = [(-0.5, 0.5), (0.5, 0.5), (0.0, 0.0), (0.0, 1.0)]
     @State static var blueLayer : [(xPoint: Double, yPoint: Double)] = [(-0.5, -0.5), (0.5, -0.5), (0.9, 0.0)]
     @State static var numParticles = 3
+    @State static var numIterations = 5
     
     static var previews: some View {
-        drawingView(redLayer: $redLayer, blueLayer: $blueLayer, N: numParticles)
+        drawingView(redLayer: $redLayer, blueLayer: $blueLayer, N: numParticles, n: numIterations)
             .aspectRatio(1, contentMode: .fill)
             //.drawingGroup()
     }
@@ -42,6 +44,7 @@ struct drawSpins: Shape {
     let smoothness : CGFloat = 1.0
     var drawingPoints: [(xPoint: Double, yPoint: Double)]
     var numParticles: Int
+    var numIterations: Int
     
     func path(in rect: CGRect) -> Path {
         
@@ -53,7 +56,7 @@ struct drawSpins: Shape {
         var path = Path()
         
         for item in drawingPoints {
-            let xCoord = item.xPoint/(1000)*Double(scale)
+            let xCoord = item.xPoint/Double(numIterations)*Double(scale)
             let yCoord = item.yPoint/Double(numParticles - 1)*Double(-scale) + 2.0*Double(center.y)
             path.addRect(CGRect(x: xCoord, y: yCoord, width: 1.0, height: 1.0))
         }

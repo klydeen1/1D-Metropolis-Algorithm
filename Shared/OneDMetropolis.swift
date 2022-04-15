@@ -16,10 +16,12 @@ class OneDMetropolis: NSObject, ObservableObject {
     @Published var enableButton = true
     
     var mySpin = OneDSpin()
-    var N = 100
+    var N = 100 // Number of particles
+    var numIterations = 1000
+    
     var temp = 273.15 // Temperature in Kelvin
-    let kB = 1.380649e-23 // Boltzmann constant
-    let J = 1.0 // The exchange energy
+    let J = 1.0 // The exchange energy in units 1e-21 Joules
+    let kB = 0.01380649 // Boltzmann constant in units 1e-21 Joules/Kelvin
     
     var printSpins = false
     
@@ -47,12 +49,10 @@ class OneDMetropolis: NSObject, ObservableObject {
         newSpinUpPoints = []
         newSpinDownPoints = []
         
-        for x in 1...1000 {
+        for x in 1...numIterations {
             await iterateMetropolis(startType: startType)
             await addSpinCoordinates(spinConfig: mySpin.spinArray, xCoord: Double(x))
         }
-
-        // await updateData(spinUpPoints: newSpinUpPoints, spinDownPoints: newSpinDownPoints)
     }
     
     /// initializeSpin
@@ -97,8 +97,7 @@ class OneDMetropolis: NSObject, ObservableObject {
         }
         else {
             // Accept with relative probability R = exp(-ΔE/kB T)
-            // let R = exp((-1.0*abs(trialEnergy - prevEnergy))/(kB * temp))
-            let R = exp((-1.0*abs(trialEnergy - prevEnergy))) // kBT = 1 for debugging
+            let R = exp((-1.0*abs(trialEnergy - prevEnergy))/(kB * temp))
             let r = Double.random(in: 0...1)
             // print("r is \(r) and R is \(R)")
             if (R >= r) { return trialConfig } // Accept the trial
@@ -155,19 +154,6 @@ class OneDMetropolis: NSObject, ObservableObject {
             }
         }
     }
-    
-    /*
-    /// updateData
-    /// The function runs on the main thread so it can update the GUI
-    /// - Parameters:
-    ///   - spinUpPoints: points representing particles with spin up
-    ///   - spinDownPoints: points representing particles with spin down
-    @MainActor func updateData(spinUpPoints: [(xPoint: Double, yPoint: Double)] , spinDownPoints: [(xPoint: Double, yPoint: Double)]){
-        
-        spinUpData.append(contentsOf: spinUpPoints)
-        spinDownData.append(contentsOf: spinDownPoints)
-    }
-     */
     
     /// setButton Enable
     /// Toggles the state of the Enable Button on the Main Thread

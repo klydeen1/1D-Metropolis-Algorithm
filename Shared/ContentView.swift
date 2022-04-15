@@ -13,6 +13,7 @@ struct ContentView: View {
     
     @State var NString = "100" // Number of particles
     @State var tempString = "100.0" // Temperature
+    @State var iterationsString = "1000" // Number of iterations for the simulation
     
     @State var selectedStart = "Cold"
     var startOptions = ["Cold", "Hot"]
@@ -36,6 +37,14 @@ struct ContentView: View {
                         TextField("# Temperature (K)", text: $tempString)
                             .padding()
                     }
+                    
+                    VStack(alignment: .center) {
+                        Text("Number of Iterations")
+                            .font(.callout)
+                            .bold()
+                        TextField("# Number of Iterations", text: $iterationsString)
+                            .padding()
+                    }
                 }
                 
                 VStack {
@@ -54,7 +63,7 @@ struct ContentView: View {
                         .padding()
                         .disabled(metropolisAlgorithm.enableButton == false)
                     
-                    Button("Run 1000 Times", action: {Task.init{await self.runMany()}})
+                    Button("Run Simulation", action: {Task.init{await self.runMany()}})
                         .padding()
                         .disabled(metropolisAlgorithm.enableButton == false)
                     
@@ -66,7 +75,7 @@ struct ContentView: View {
             
             .padding()
             //DrawingField
-            drawingView(redLayer:$drawingData.spinUpData, blueLayer:$drawingData.spinDownData, N: metropolisAlgorithm.N)
+            drawingView(redLayer: $drawingData.spinUpData, blueLayer: $drawingData.spinDownData, N: metropolisAlgorithm.N, n: metropolisAlgorithm.numIterations)
                 .padding()
                 .aspectRatio(1, contentMode: .fit)
                 .drawingGroup()
@@ -98,7 +107,10 @@ struct ContentView: View {
         metropolisAlgorithm.setButtonEnable(state: false)
         
         metropolisAlgorithm.printSpins = false
+        
         metropolisAlgorithm.temp = Double(tempString)!
+        metropolisAlgorithm.numIterations = Int(iterationsString)!
+        
         await metropolisAlgorithm.runSimulation(startType: selectedStart)
         drawingData.spinUpData = metropolisAlgorithm.newSpinUpPoints
         drawingData.spinDownData = metropolisAlgorithm.newSpinDownPoints
