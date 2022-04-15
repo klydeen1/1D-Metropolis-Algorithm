@@ -144,6 +144,12 @@ class OneDMetropolis: NSObject, ObservableObject {
         print(spinString)
     }
     
+    /// addSpinCoordinates
+    /// Determines whether each particle in a 1D configuration is spin up or spin down. Adds a coordinate point for each particle to either
+    /// newSpinUpPoints or newSpinDownPoints depending on the spin.
+    /// - Parameters:
+    ///    - spinConfig: the 1D spin configuration with positive values representing spin up and negative representing spin down
+    ///    - xCoord: the x-coordinate to use for all particles in the configuration spinConfig
     func addSpinCoordinates(spinConfig: [Double], xCoord: Double) async {
         for i in 0..<spinConfig.count {
             if (spinConfig[i] < 0) {
