@@ -89,26 +89,25 @@ struct ContentView: View {
     }
     
     func runOneDAlgorithm() async {
-        checkNChange()
+        checkParameterChange()
         
         metropolisAlgorithm.setButtonEnable(state: false)
         
         metropolisAlgorithm.printSpins = true
-        metropolisAlgorithm.N = Int(NString)!
-        metropolisAlgorithm.temp = Double(tempString)!
         await metropolisAlgorithm.iterateMetropolis(startType: selectedStart)
         
         metropolisAlgorithm.setButtonEnable(state: true)
     }
     
     @MainActor func runMany() async{
-        checkNChange()
+        metropolisAlgorithm.N = Int(NString)!
+        metropolisAlgorithm.temp = Double(tempString)!
+        self.reset()
         
         metropolisAlgorithm.setButtonEnable(state: false)
         
         metropolisAlgorithm.printSpins = false
         
-        metropolisAlgorithm.temp = Double(tempString)!
         metropolisAlgorithm.numIterations = Int(iterationsString)!
         
         await metropolisAlgorithm.runSimulation(startType: selectedStart)
@@ -118,10 +117,12 @@ struct ContentView: View {
         metropolisAlgorithm.setButtonEnable(state: true)
     }
     
-    func checkNChange() {
+    func checkParameterChange() {
         let prevN = metropolisAlgorithm.N
+        let prevT = metropolisAlgorithm.temp
         metropolisAlgorithm.N = Int(NString)!
-        if (prevN != metropolisAlgorithm.N) {
+        metropolisAlgorithm.temp = Double(tempString)!
+        if (prevN != metropolisAlgorithm.N || prevT != metropolisAlgorithm.temp) {
             self.reset()
         }
     }
