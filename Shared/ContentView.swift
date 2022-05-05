@@ -100,8 +100,7 @@ struct ContentView: View {
     }
     
     @MainActor func runMany() async{
-        metropolisAlgorithm.N = Int(NString)!
-        metropolisAlgorithm.temp = Double(tempString)!
+        checkParameterChange()
         self.reset()
         
         metropolisAlgorithm.setButtonEnable(state: false)
