@@ -15,6 +15,10 @@ class OneDMetropolis: NSObject, ObservableObject {
     @Published var OneDSpins: [Double] = []
     @Published var enableButton = true
     
+    @Published var magString = ""
+    @Published var spHeatString = ""
+    @Published var energyString = ""
+    
     var mySpin = OneDSpin()
     var N = 100 // Number of particles
     var numIterations = 1000
@@ -68,15 +72,15 @@ class OneDMetropolis: NSObject, ObservableObject {
                 ESumCount += 1
             }
         }
-        print("energy: \(await getConfigEnergy(spinConfig: mySpin.spinArray))")
-        print("mag: \(Mj)")
+        //print("energy: \(await getConfigEnergy(spinConfig: mySpin.spinArray))")
         U = ESum / Double(ESumCount)
-        print("internal energy: \(U)")
         let ESquaredAvg = ESquaredSum / Double(ESumCount)
-        print("energy fluctuations: \(ESquaredAvg)")
+        //print("energy fluctuations: \(ESquaredAvg)")
         C = 1/Double(N*N) * (ESquaredAvg - U*U)/(kB*temp*temp)
-        print("specific heat: \(C)")
-        print()
+        
+        await updateInternalEnergyString(text: "\(U)")
+        await updateMagnetizationString(text: "\(Mj)")
+        await updateSpecificHeatString(text: "\(C)")
     }
     
     /// initializeSpin
@@ -186,6 +190,27 @@ class OneDMetropolis: NSObject, ObservableObject {
                 newSpinUpPoints.append((xPoint: xCoord, yPoint: Double(i)))
             }
         }
+    }
+    
+    /// updateMagnetizationString
+    /// The function runs on the main thread so it can update the GUI
+    /// - Parameter text: contains the string containing the current value of the magnetization
+    @MainActor func updateMagnetizationString(text:String) async {
+        self.magString = text
+    }
+    
+    /// updateSpecificHeatString
+    /// The function runs on the main thread so it can update the GUI
+    /// - Parameter text: contains the string containing the current value of the specific heat
+    @MainActor func updateSpecificHeatString(text:String) async {
+        self.spHeatString = text
+    }
+    
+    /// updateInternalEnergyString
+    /// The function runs on the main thread so it can update the GUI
+    /// - Parameter text: contains the string containing the current value of the internal energy
+    @MainActor func updateInternalEnergyString(text:String) async {
+        self.energyString = text
     }
     
     /// setButton Enable

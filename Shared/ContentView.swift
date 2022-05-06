@@ -15,6 +15,10 @@ struct ContentView: View {
     @State var tempString = "100.0" // Temperature
     @State var iterationsString = "1000" // Number of iterations for the simulation
     
+    @State var magString = ""
+    @State var spHeatString = ""
+    @State var energyString = ""
+    
     @State var selectedStart = "Cold"
     var startOptions = ["Cold", "Hot"]
     
@@ -27,7 +31,7 @@ struct ContentView: View {
                             .font(.callout)
                             .bold()
                         TextField("# Number of Particles", text: $NString)
-                            .padding()
+                            //.padding()
                     }
                     
                     VStack(alignment: .center) {
@@ -35,7 +39,7 @@ struct ContentView: View {
                             .font(.callout)
                             .bold()
                         TextField("# Temperature (K)", text: $tempString)
-                            .padding()
+                            //.padding()
                     }
                     
                     VStack(alignment: .center) {
@@ -43,7 +47,7 @@ struct ContentView: View {
                             .font(.callout)
                             .bold()
                         TextField("# Number of Iterations", text: $iterationsString)
-                            .padding()
+                            //.padding()
                     }
                 }
                 
@@ -70,6 +74,35 @@ struct ContentView: View {
                     Button("Reset", action: {Task.init{self.reset()}})
                         .padding()
                         .disabled(metropolisAlgorithm.enableButton == false)
+                }
+                
+                VStack {
+                    Text("Results")
+                        .padding()
+                    
+                    HStack {
+                        Spacer()
+                        VStack(alignment: .center) {
+                            Text("Internal Energy")
+                                .font(.callout)
+                                .bold()
+                            TextField("# Internal Energy", text: $energyString)
+                        }
+                        
+                        VStack(alignment: .center) {
+                            Text("Magnetization")
+                                .font(.callout)
+                                .bold()
+                            TextField("# Magnetization", text: $magString)
+                        }
+                        
+                        VStack(alignment: .center) {
+                            Text("Specific Heat")
+                                .font(.callout)
+                                .bold()
+                            TextField("# Specific Heat", text: $spHeatString)
+                        }
+                    }
                 }
             }
             
@@ -112,6 +145,10 @@ struct ContentView: View {
         await metropolisAlgorithm.runSimulation(startType: selectedStart)
         drawingData.spinUpData = metropolisAlgorithm.newSpinUpPoints
         drawingData.spinDownData = metropolisAlgorithm.newSpinDownPoints
+        
+        magString = metropolisAlgorithm.magString
+        spHeatString = metropolisAlgorithm.spHeatString
+        energyString = metropolisAlgorithm.energyString
         
         metropolisAlgorithm.setButtonEnable(state: true)
     }
